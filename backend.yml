@@ -49,7 +49,7 @@
         state: latest
 
     - name: Add Schema
-      community,mysql.mysql_db:
+      community.mysql.mysql_db:
         name: all
         state: import
         target: /app/schema/backend.sql
