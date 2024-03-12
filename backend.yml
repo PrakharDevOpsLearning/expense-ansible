@@ -1,0 +1,83 @@
+- name: Backend Setup
+  hosts: all
+  become: true
+  tasks:
+    - name: Disable node
+      ansible.builtin.shell: dnf module disable nodejs -y
+
+    - name: Enable NodeJS module for V20
+      ansible.builtin.shell: dnf module enable nodejs:20 -y
+
+    - name: Install Node js
+      ansible.builtin.dnf:
+        name: nodejs
+        state: latest
+
+    - name: Adding user
+      ansible.builtin.user:
+        name: expense
+
+    - name: Copy backend service file
+      ansible.builtin.copy:
+        src: backend.service
+        dest: /etc/systemd/system/backend.service
+
+    - name: delete content
+      ansible.builtin.file:
+        path: /app
+        state: absent
+
+    - name: Creating directory
+      ansible.builtin.file:
+        path: /app
+        state: directory
+
+    - name: downloading and unzip app content
+      ansible.builtin.unarchive:
+        src: https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip
+        dest: /app
+        remote_src: yes
+
+    - name: Npm Install
+      community.general.npm:
+        path: /app
+        state: latest
+
+    - name: Enable & Start backend Service
+      ansible.builtin.systemd_service:
+        state: restarted
+        name: backend
+        enabled: yes
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+##BackEnd Script
+#source common.sh
+#my_sql_root_pwd=$1
+#component=backend
+#app_dir=/app
+#
+#
+#print_task_heading "install mysql"
+#dnf install mysql -y &>>$LOG
+#check_status $?
+#
+#print_task_heading "schema add"
+#mysql -h 172.31.15.231 -uroot -p${my_sql_root_pwd} < /app/schema/backend.sql &>>$LOG
+#check_status $?
