@@ -5,12 +5,12 @@
     - name: install mysql server
       ansible.builtin.dnf:
         name: mysql-server
-        state: latest
+        state: installed
 
     - name: enable & start mysqlId
       ansible.builtin.service:
         name: mysqld
-        state: restarted
+        state: started
         enabled: yes
 
     - name: Set MySql Pwd
