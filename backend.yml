@@ -43,10 +43,17 @@
         path: /app
         state: latest
 
-    - name: Install MySql
-      ansible.builtin.dnf:
-        name: mysql
-        state: latest
+#    - name: Install MySql
+#      ansible.builtin.dnf:
+#        name: mysql
+#        state: latest
+
+    - name: Install Python MySql Client
+      ansible.builtin.pip:
+        name:
+          - PyMySQL
+          - cryptography
+        executable: pip3.9
 
     - name: Add Schema
       community.mysql.mysql_db:
@@ -62,3 +69,4 @@
         state: restarted
         name: backend
         enabled: yes
+        daemon_reload: yes
