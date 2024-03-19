@@ -44,21 +44,33 @@
 #        name: mysql
 #        state: latest
 
-- name: Install Python MySql Client
-  ansible.builtin.pip:
-    name:
-      - PyMySQL
-      - cryptography
-    executable: pip3.11
+#- name: Install Python MySql Client
+#  ansible.builtin.pip:
+#    name:
+#      - PyMySQL
+#      - cryptography
+#    executable: pip3.11
 
-- name: Add Schema
-  community.mysql.mysql_db:
-    name: all
-    state: import
-    target: /app/schema/backend.sql
-    login_user: root
-    login_password: ExpenseApp@1
-    login_host: mysql-dev.prakhardevopslearning.online
+#- name: Add Schema
+#  community.mysql.mysql_db:
+#    name: all
+#    state: import
+#    target: /app/schema/backend.sql
+#    login_user: root
+#    login_password: ExpenseApp@1
+#    login_host: mysql-dev.prakhardevopslearning.online
+
+
+
+- name: install_my_sql
+  ansible.builtin.shell: dnf install mysql -y
+  tags: mySql
+
+
+
+- name: load schema
+  ansible.builtin.shell: mysql -h mysql-dev.prakhardevopslearning.online -uroot -pExpenseApp@1 < /app/schema/backend.sql
+  tags: mySql
 
 - name: Enable & Start backend Service
   ansible.builtin.systemd_service:
@@ -66,3 +78,4 @@
     name: backend
     enabled: yes
     daemon_reload: yes
+  tags: mySql
