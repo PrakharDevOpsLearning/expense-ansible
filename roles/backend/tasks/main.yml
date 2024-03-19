@@ -14,25 +14,14 @@
     name: expense
 
 - name: Copy backend service file
-  ansible.builtin.copy:
+  ansible.builtin.template:
     src: backend.service
     dest: /etc/systemd/system/backend.service
 
-- name: delete content
-  ansible.builtin.file:
-    path: /app
-    state: absent
-
-- name: Creating directory
-  ansible.builtin.file:
-    path: /app
-    state: directory
-
-- name: downloading and unzip app content
-  ansible.builtin.unarchive:
-    src: https://expense-artifacts.s3.amazonaws.com/expense-backend-v2.zip
-    dest: /app
-    remote_src: yes
+- name: Import application prerequisites
+  ansible.builtin.import_role:
+    name: common
+    tasks_from: app-pre-req
 
 - name: Npm Install
   community.general.npm:
@@ -64,13 +53,10 @@
 
 - name: install_my_sql
   ansible.builtin.shell: dnf install mysql -y
-  tags: mySql
-
-
 
 - name: load schema
   ansible.builtin.shell: mysql -h mysql-dev.prakhardevopslearning.online -uroot -pExpenseApp@1 < /app/schema/backend.sql
-  tags: mySql
+
 
 - name: Enable & Start backend Service
   ansible.builtin.systemd_service:
@@ -78,4 +64,8 @@
     name: backend
     enabled: yes
     daemon_reload: yes
-  tags: mySql
+
+
+  #tags: mySql
+  #we use tags when we jst want to run particular steps and command to run it is ansible-playbook -i inventory, -e ansible_user=username -e ansible_password=password filename.yml -t tagname
+

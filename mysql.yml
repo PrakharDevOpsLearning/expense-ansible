@@ -1,5 +1,0 @@
-- name: MySql Setup
-  hosts: all
-  become: true
-  roles:
-    - mysql
