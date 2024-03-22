@@ -72,3 +72,4 @@ pipelines:
                       - backend
                     command: bash #bash ansible.sh backend
                     run_if: passed
+

@@ -72,3 +72,19 @@ pipelines:
                       - frontend
                     command: bash #bash ansible.sh frontend
                     run_if: passed
+
+      - PRE-PROD:
+          fetch_materials: true
+          environment_variables:
+            env: pre-prod
+          approval:
+            type: manual
+          jobs:
+            ansible-playbook:
+              tasks:
+                - exec:
+                    arguments:
+                      - ansible.sh
+                      - backend
+                    command: bash #bash ansible.sh backend
+                    run_if: passed
