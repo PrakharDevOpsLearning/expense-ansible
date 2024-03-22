@@ -1,6 +1,6 @@
 format_version: 10
 pipelines:
-  mysql:
+  mysql:                                    #pipeline name
     group: defaultGroup
     materials:
       git-da613e5:
