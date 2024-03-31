@@ -1,0 +1,21 @@
+##Node exporter to be installed on frontend, backend & mqsql server
+
+- name: downloading and unzip node_exporter
+  ansible.builtin.unarchive:
+    src: https://github.com/prometheus/node_exporter/releases/download/v{{ version }}/node_exporter-v{{ version }}.linux-amd64.tar.gz
+    dest: /opt
+    remote_src: yes
+    owner: bin
+
+- name: Copy node_exporter service file
+  ansible.builtin.template:
+    src: node_exporter.service
+    dest: /etc/systemd/system/node_exporter.service
+
+- name: start node exporter service
+  ansible.builtin.systemd_service:
+    name: node_exporter
+    state: restarted
+    enabled: yes
+    daemon-reload: yes
+
