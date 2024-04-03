@@ -8,8 +8,23 @@
     path: "{{ app_loc }}"
     state: directory
 
+    #below part of code has been added to give permission to user
+    #expense access of new relic logs, so while creating app directory
+    #we are defining the owner to expense user"
+
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
+
+
 - name: downloading and unzip app content
   ansible.builtin.unarchive:
     src: https://expense-artifacts.s3.amazonaws.com/expense-{{ component }}-v2.zip
     dest: "{{ app_loc }}"
     remote_src: yes
+
+    #below part of code has been added to give permission to user
+    #expense access of new relic logs, so while creating app directory
+    #we are defining the owner to expense user"
+
+    owner: "{{ app_user }}"
+    group: "{{ app_user }}"
