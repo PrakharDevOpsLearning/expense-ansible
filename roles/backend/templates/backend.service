@@ -1,10 +1,28 @@
+#[Unit]
+#Description = Backend Service
+#
+#[Service]
+#User=expense
+#Environment=DB_HOST="mysql-{{ env }}.prakhardevopslearning.online"
+#ExecStart=/bin/node /app/index.js
+#SyslogIdentifier=backend
+#
+#[Install]
+#WantedBy=multi-user.target
+
+#changed for NewRelic
+
+
 [Unit]
 Description = Backend Service
 
 [Service]
 User=expense
+WorkingDirectory=/app
 Environment=DB_HOST="mysql-{{ env }}.prakhardevopslearning.online"
-ExecStart=/bin/node /app/index.js
+Environment=NEW_RELIC_APP_NAME=backend
+Environment=NEW_RELIC_LICENSE_KEY={{ new_relic_key }}
+ExecStart=/bin/node -r newrelic /app/index.js
 SyslogIdentifier=backend
 
 [Install]
