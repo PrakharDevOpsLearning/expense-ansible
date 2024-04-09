@@ -55,7 +55,7 @@
   ansible.builtin.shell: dnf install mysql -y
 
 - name: load schema
-  ansible.builtin.shell: mysql -h mysql-dev.prakhardevopslearning.online -uroot -pExpenseApp@1 < /app/schema/backend.sql
+  ansible.builtin.shell: mysql -h mysql-{{env}}.prakhardevopslearning.online -uroot -p{{ mysql_root_password }} < /app/schema/backend.sql
 
 - name: Import newrelic nodeJs setup
   ansible.builtin.import_role:
