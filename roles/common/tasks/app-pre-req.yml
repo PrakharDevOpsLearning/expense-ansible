@@ -10,7 +10,7 @@
 
     #below part of code has been added to give permission to user
     #expense access of new relic logs, so while creating app directory
-    #we are defining the owner to expense user"
+    #we are defining the owner to expense user" "PERMISSION SETUP"
 
     owner: "{{ app_user }}"
     group: "{{ app_user }}"
