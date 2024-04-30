@@ -19,7 +19,8 @@ Description = Backend Service
 [Service]
 User={{ app_user }}
 WorkingDirectory=/app
-Environment=DB_HOST="mysql-{{ env }}.prakhardevopslearning.online"
+#Environment=DB_HOST="mysql-{{ env }}.prakhardevopslearning.online" replaced by RDS
+Environment=DB_HOST={{ rds_endpoint }}
 Environment=NEW_RELIC_APP_NAME=backend
 Environment=NEW_RELIC_LICENSE_KEY={{ new_relic_key }}
 ExecStart=/bin/node -r newrelic /app/index.js

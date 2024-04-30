@@ -28,34 +28,34 @@
     path: /app
     state: latest
 
-#    - name: Install MySql
-#      ansible.builtin.dnf:
-#        name: mysql
-#        state: latest
+- name: Install Python MySql Client
+  ansible.builtin.pip:
+    name:
+      - PyMySQL
+      - cryptography
+    executable: pip3.9
 
-#- name: Install Python MySql Client
-#  ansible.builtin.pip:
-#    name:
-#      - PyMySQL
-#      - cryptography
-#    executable: pip3.11
+- name: Install MySql
+  ansible.builtin.dnf:
+    name: mysql
+    state: installed
 
-#- name: Add Schema
-#  community.mysql.mysql_db:
-#    name: all
-#    state: import
-#    target: /app/schema/backend.sql
-#    login_user: root
-#    login_password: ExpenseApp@1
-#    login_host: mysql-dev.prakhardevopslearning.online
+- name: Load Schema
+  community.mysql.mysql_db:
+    name: all
+    state: import
+    target: /app/schema/backend.sql
+    login_user: "{{rds_username}}"
+    login_password: "{{ rds_password }}"
+    login_host: "{{ rds_endpoint }}"
 
 
 
-- name: install_my_sql
-  ansible.builtin.shell: dnf install mysql -y
+#- name: install_my_sql
+#  ansible.builtin.shell: dnf install mysql -y
 
-- name: load schema
-  ansible.builtin.shell: mysql -h mysql-{{env}}.prakhardevopslearning.online -uroot -p{{ mysql_root_password }} < /app/schema/backend.sql
+#- name: load schema
+#  ansible.builtin.shell: mysql -h mysql-{{env}}.prakhardevopslearning.online -uroot -p{{ mysql_root_password }} < /app/schema/backend.sql
 
 - name: Import newrelic nodeJs setup
   ansible.builtin.import_role:
