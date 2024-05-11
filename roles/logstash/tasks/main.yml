@@ -1,3 +1,8 @@
+- name: copy elasticsearch conf file
+  ansible.builtin.template:
+    src: elastic.repo
+    dest: /etc/yum.repos.d/elastic.repo
+
 - name: Install logstash
   ansible.builtin.dnf:
     name: logstash
@@ -6,7 +11,7 @@
 - name: copy logstash config file
   ansible.builtin.template:
     src: logstash.conf
-    dest: /etc/logstash/conf.d
+    dest: /etc/logstash/conf.d/logstash.conf
 
 - name: restart logstash
   ansible.builtin.systemd_service:
