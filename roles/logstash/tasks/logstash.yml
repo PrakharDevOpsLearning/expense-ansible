@@ -2,7 +2,7 @@
   ansible.builtin.dnf:
     name: logstash
     state: installed
-    enable: yes
+    enabled: yes
 
 - name: copy logstash config file
   ansible.builtin.template:
