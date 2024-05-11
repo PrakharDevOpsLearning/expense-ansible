@@ -1,0 +1,19 @@
+- name: Install logstash
+  ansible.builtin.dnf:
+    name: logstash
+    state: installed
+    enable: yes
+
+- name: copy logstash config file
+  ansible.builtin.template:
+    src: logstash.conf
+    dest: /etc/logstash/conf.d
+
+- name: restart logstash
+  ansible.builtin.systemd_service:
+    name: logstash
+    state: restarted
+    enabled: yes
+
+
+
