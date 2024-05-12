@@ -1,9 +1,6 @@
 component: frontend
 app_loc: /usr/share/nginx/html
 app_user: nginx
-  #Since we are using 3rd party program nginx, which comes with its own user nginx
-  #user is necessary for backend but not for frontend, so no need of seperate user creation
-  #but since its common method used in both frontend and backend so added nginx
 log_file: /var/log/nginx/access.log
 
 
